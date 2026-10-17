@@ -1,5 +1,6 @@
 4.56
 -----
+- Fixed an issue where copying the internal link of a just created note did not work #1019
 
 
 4.55

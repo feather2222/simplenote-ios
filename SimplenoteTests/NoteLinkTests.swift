@@ -21,6 +21,26 @@ class NoteLinkTests: XCTestCase {
         XCTAssertEqual(twoReference.instancesOfReference(to: referencedNote), 2)
         XCTAssertEqual(emptyContent.instancesOfReference(to: referencedNote), 0)
     }
+
+    /// Verifies that a note with a title yields a Markdown internal reference
+    ///
+    func testMarkdownInternalLinkContainsTitleAndPlainLink() {
+        let note = storage.insertSampleNote(contents: "Some Title")
+        note.createPreview()
+
+        let link = note.markdownInternalLink
+
+        XCTAssertEqual(link, "[Some Title](\(note.plainInternalLink!))")
+    }
+
+    /// Verifies that a just created note, which has no title preview yet, falls back to the plain internal link
+    ///
+    func testMarkdownInternalLinkFallsBackToPlainLinkWhenTitlePreviewIsMissing() {
+        let note = storage.insertSampleNote(contents: "")
+
+        XCTAssertNil(note.titlePreview)
+        XCTAssertEqual(note.markdownInternalLink, note.plainInternalLink)
+    }
 }
 
 // MARK: - Private

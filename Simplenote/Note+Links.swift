@@ -14,11 +14,16 @@ extension Note {
         return .simplenotePath(withHost: SimplenoteConstants.simplenoteInterlinkHost) + key
     }
 
-    /// Returns the receiver's Markdown Internal Reference, when possible
+    /// Returns the receiver's Markdown Internal Reference, when possible.
+    /// Falls back to the plain Internal Link when the note has no title yet (e.g. a just created note)
     ///
     var markdownInternalLink: String? {
-        guard let title = titlePreview, let plainInternalLink else {
+        guard let plainInternalLink else {
             return nil
+        }
+
+        guard let title = titlePreview else {
+            return plainInternalLink
         }
 
         let shortened = title.truncateWords(upTo: SimplenoteConstants.simplenoteInterlinkMaxTitleLength)

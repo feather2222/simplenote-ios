@@ -342,8 +342,12 @@ private extension OptionsViewController {
 
     @IBAction
     func copyInterlinkWasPressed() {
+        guard UIPasteboard.general.copyInternalLink(to: note) else {
+            dismiss(animated: true, completion: nil)
+            return
+        }
+
         SPTracker.trackEditorCopiedInternalLink()
-        UIPasteboard.general.copyInternalLink(to: note)
         NoticeController.shared.present(NoticeFactory.linkCopied())
         SPTracker.trackPresentedNotice(ofType: .internalLinkCopied)
         dismiss(animated: true, completion: nil)

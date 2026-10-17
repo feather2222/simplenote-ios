@@ -6,12 +6,14 @@ extension UIPasteboard {
 
     /// Copies the Internal Link (Markdown Reference) into the OS Pasteboard
     ///
-    func copyInternalLink(to note: Note) {
+    @discardableResult
+    func copyInternalLink(to note: Note) -> Bool {
         guard let link = note.markdownInternalLink else {
-            return
+            return false
         }
 
         string = link
+        return true
     }
 
     /// Copies the Public Link (if any) into the OS Pasteboard
